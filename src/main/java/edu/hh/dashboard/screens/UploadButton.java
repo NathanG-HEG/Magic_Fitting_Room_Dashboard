@@ -2,6 +2,5 @@ package edu.hh.dashboard.screens;
 
 import javax.swing.*;
 
-public class MainFrame extends JFrame {
-    
+public class UploadButton extends JButton {
 }

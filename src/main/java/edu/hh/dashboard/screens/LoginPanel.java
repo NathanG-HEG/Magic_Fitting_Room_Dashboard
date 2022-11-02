@@ -2,5 +2,6 @@ package edu.hh.dashboard.screens;
 
 import javax.swing.*;
 
-public class SettingsFrame extends JFrame {
+public class LoginPanel extends JPanel {
+
 }
