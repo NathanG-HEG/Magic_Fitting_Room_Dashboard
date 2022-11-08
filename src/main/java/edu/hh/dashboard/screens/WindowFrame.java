@@ -1,5 +1,7 @@
 package edu.hh.dashboard.screens;
 
+import edu.hh.dashboard.Main;
+
 import javax.swing.*;
 
 public class WindowFrame extends JFrame {
