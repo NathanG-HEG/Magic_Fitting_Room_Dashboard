@@ -1,22 +1,23 @@
 package edu.hh.dashboard.screens;
 
+import edu.hh.dashboard.logic.FileHandler;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 public class UploadButton extends JButton {
-    public UploadButton(JPanel parent) {
+    public UploadButton(){
         super();
-        this.setText("Upload");
-        this.addActionListener(e -> {
-            JFileChooser jfc = new JFileChooser();
-            int returnVal = jfc.showOpenDialog(parent);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = jfc.getSelectedFile();
-                System.out.println("File selected " + file.getAbsolutePath());
-            }
+        this.setText("Upload selected pictures");
 
+        this.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileHandler.upload();
+            }
         });
     }
 }

@@ -6,11 +6,12 @@ import java.awt.*;
 public class MainPanel extends JPanel {
     private MenuButton settingsButton;
     private MenuButton logOutButton;
+    private SelectButton selectButton;
     private UploadButton uploadButton;
     private JPanel buttonsPanel;
     private JPanel uploadPanel;
 
-    public MainPanel(){
+    public MainPanel() {
         this.setLayout(new BorderLayout());
         uploadPanel = createUploadPanel();
         this.add(uploadPanel, BorderLayout.CENTER);
@@ -19,7 +20,7 @@ public class MainPanel extends JPanel {
         this.setVisible(true);
     }
 
-    private JPanel createButtonPanel(){
+    private JPanel createButtonPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         settingsButton = new MenuButton();
@@ -33,11 +34,14 @@ public class MainPanel extends JPanel {
         return panel;
     }
 
-    private JPanel createUploadPanel(){
+    private JPanel createUploadPanel() {
         JPanel panel = new JPanel();
-        uploadButton = new UploadButton(panel);
-        uploadButton.setText("Select file");
+        selectButton = new SelectButton(panel);
+        panel.add(selectButton);
+
+        uploadButton = new UploadButton();
         panel.add(uploadButton);
+
         panel.setVisible(true);
         return panel;
     }
