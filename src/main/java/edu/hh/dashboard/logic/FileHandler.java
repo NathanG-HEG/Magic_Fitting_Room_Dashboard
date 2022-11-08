@@ -1,5 +1,7 @@
 package edu.hh.dashboard.logic;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +42,12 @@ public abstract class FileHandler {
 
     public static void upload() {
         addToLocalRepo(selectedFiles);
-
+        GitHubManager ghm = GitHubManager.getGitHubManager();
+        try {
+            ghm.sendFiles();
+        } catch (GitAPIException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static File[] getSelectedFiles() {
