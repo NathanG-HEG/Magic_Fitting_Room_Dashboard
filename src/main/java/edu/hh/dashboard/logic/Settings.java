@@ -1,9 +1,19 @@
 package edu.hh.dashboard.logic;
 
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 public abstract class Settings {
-    private static String localRepository = "C:/temp/test/VirtualChangingRoomProto";
-    private static String gitHubRepository = "https://github.com/NathanG-HEG/VirtualChangingRoomProto.git";
-    private static String emailAddress = "nathan.gaillard@students.hevs.ch";
+    private static String localRepository = "";
+    private static String gitHubRepository = "";
+    private static String emailAddress = "";
 
     public static String getLocalRepository() {
         return localRepository;
@@ -15,5 +25,47 @@ public abstract class Settings {
 
     public static String getEmailAddress() {
         return emailAddress;
+    }
+
+    public static void settingsStartup() {
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader("Information.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+
+            JSONArray settings = (JSONArray) obj;
+            System.out.println(settings);
+
+            //Iterate over array
+            settings.forEach( emp -> readSettings( (JSONObject) emp ) );
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void readSettings(JSONObject employee)
+    {
+        //Get local Repository
+        String local = (String) employee.get("localRepository");
+        //System.out.println("local: "+local);
+        localRepository = local;
+
+        //Get github Repository
+        String github = (String) employee.get("gitHubRepository");
+        //System.out.println("github: "+github);
+        gitHubRepository = github;
+
+        //Get email Adress
+        String email = (String) employee.get("emailAddress");
+        //System.out.println("Email: "+email);
+        emailAddress = email;
     }
 }
