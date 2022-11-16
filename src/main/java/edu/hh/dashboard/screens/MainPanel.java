@@ -2,8 +2,11 @@ package edu.hh.dashboard.screens;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MainPanel extends JPanel {
+public class MainPanel extends JPanel implements ActionListener {
+    private WindowFrame frame;
     private MenuButton settingsButton;
     private MenuButton logOutButton;
     private SelectButton selectButton;
@@ -11,13 +14,15 @@ public class MainPanel extends JPanel {
     private JPanel buttonsPanel;
     private JPanel uploadPanel;
 
-    public MainPanel() {
+    public MainPanel(WindowFrame frame) {
+        this.frame = frame;
         this.setLayout(new BorderLayout());
         uploadPanel = createUploadPanel();
         this.add(uploadPanel, BorderLayout.CENTER);
         buttonsPanel = createButtonPanel();
         this.add(buttonsPanel, BorderLayout.LINE_END);
         this.setVisible(true);
+        logOutButton.addActionListener(this);
     }
 
     private JPanel createButtonPanel() {
@@ -46,4 +51,7 @@ public class MainPanel extends JPanel {
         return panel;
     }
 
+    public void actionPerformed(ActionEvent ae) {
+        frame.changePanel(new LoginPanel(frame));
+    }
 }

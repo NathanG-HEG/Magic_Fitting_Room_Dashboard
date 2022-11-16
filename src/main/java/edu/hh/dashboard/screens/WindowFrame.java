@@ -14,7 +14,8 @@ public class WindowFrame extends JFrame {
         this.setTitle("Magic fitting room - Dashboard");
         this.setIconImage(appIcon.getImage());
 
-        currentPanel = new SettingsPanel();
+        //currentPanel = new MainPanel();
+        currentPanel = new LoginPanel(this);
         this.add(currentPanel);
         this.setVisible(true);
     }
@@ -26,5 +27,13 @@ public class WindowFrame extends JFrame {
 
     public void setCurrentPanel(JPanel currentPanel) {
         this.currentPanel = currentPanel;
+    }
+
+    public void changePanel(JPanel newPanel) {
+        this.remove(currentPanel);
+        this.add(newPanel);
+        this.currentPanel = newPanel;
+        this.revalidate();
+        this.repaint();
     }
 }
