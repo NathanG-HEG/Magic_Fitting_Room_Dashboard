@@ -1,6 +1,7 @@
 package edu.hh.dashboard.screens;
 
 import edu.hh.dashboard.Main;
+import edu.hh.dashboard.logic.Settings;
 
 import javax.swing.*;
 
