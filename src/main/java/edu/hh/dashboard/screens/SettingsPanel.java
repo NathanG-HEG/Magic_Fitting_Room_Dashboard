@@ -15,6 +15,12 @@ public class SettingsPanel extends JPanel {
     JPanel content;
     JPanel empty;
 
+    public class SaveAction implements ActionListener{
+    public void actionPerformed(ActionEvent ae) {
+        String urlValue = gitURL.getText();
+        Settings.changeURL(urlValue);
+    }
+    }
 
     public SettingsPanel(){
         this.setLayout(new GridLayout(3,1));
