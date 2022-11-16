@@ -1,6 +1,7 @@
 package edu.hh.dashboard.logic;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -33,28 +34,32 @@ public class GitHubManager {
         return instance;
     }
 
-    public void sendFiles() throws GitAPIException {
-        File[] localRepoFile = new File(localRepository).listFiles();
-        if (localRepoFile != null) {
-            for (File f : localRepoFile) {
+    public void sendFiles(File files[]) throws GitAPIException {
+        if (files != null) {
+            for (File f : files) {
                 git.add()
-                        .addFilepattern(f.getAbsolutePath())
+                        .addFilepattern(f.getName())
                         .call();
+                System.out.println("Added "+f.getName());
             }
+            System.out.println(localRepository);
+
             git.commit()
                     .setAuthor("DashboardApp", Settings.getEmailAddress())
-                    .setMessage("Uploaded " + localRepoFile.length + " new files")
+                    .setMessage("Uploaded " + files.length + " new files")
                     .call();
+            System.out.println("Committed " + files.length + " new files.");
 
             git.push()
+                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider("softala-tailorfit", "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"))
                     .call();
         }
     }
 
     public void configGit() throws GitAPIException, IOException {
-        gitHubRepo = Settings.getGitHubRepository();
+        gitHubRepo = Settings.getGitHubRepository() + ".git";
         localRepository = Settings.getLocalRepository();
-        File localRepoFile = new File(localRepository+"/.git");
+        File localRepoFile = new File(localRepository + "/.git");
         if (!localRepoFile.exists()) {
             git = Git.cloneRepository().setURI(gitHubRepo).setDirectory(new File(localRepository)).call();
         }
@@ -64,7 +69,7 @@ public class GitHubManager {
                 .findGitDir()
                 .build();
         git = new Git(repo);
-
+        git.pull().call();
     }
 
     public void setGitHubRepo(String gitHubRepo) {

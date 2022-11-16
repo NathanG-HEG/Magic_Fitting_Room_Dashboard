@@ -14,6 +14,15 @@ public abstract class Settings {
     private static String localRepository = "";
     private static String gitHubRepository = "";
     private static String emailAddress = "";
+    private static String hash = "";
+    private static JSONObject settings = null;
+
+    //JSON parser object to parse read file
+    public static JSONParser jsonParser = new JSONParser();
+
+    public static String getHash() {
+        return hash;
+    }
 
     public static String getLocalRepository() {
         return localRepository;
@@ -39,8 +48,8 @@ public abstract class Settings {
             JSONArray settings = (JSONArray) obj;
             System.out.println(settings);
 
-            //Iterate over array
-            settings.forEach( emp -> readSettings( (JSONObject) emp ) );
+            //read the Setting informations
+            readSettings(settings);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -51,8 +60,7 @@ public abstract class Settings {
         }
     }
 
-    private static void readSettings(JSONObject employee)
-    {
+    private static void readSettings(JSONObject gitInfo) {
         //Get local Repository
         String local = (String) employee.get("localRepository");
         //System.out.println("local: "+local);

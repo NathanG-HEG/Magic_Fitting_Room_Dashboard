@@ -41,10 +41,10 @@ public abstract class FileHandler {
     }
 
     public static void upload() {
-        addToLocalRepo(selectedFiles);
         GitHubManager ghm = GitHubManager.getGitHubManager();
+        addToLocalRepo(selectedFiles);
         try {
-            ghm.sendFiles();
+            ghm.sendFiles(selectedFiles);
         } catch (GitAPIException e) {
             throw new RuntimeException(e);
         }

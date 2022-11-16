@@ -1,5 +1,8 @@
 package edu.hh.dashboard.screens;
 
+import edu.hh.dashboard.logic.Settings;
+import edu.hh.dashboard.logic.Utilities;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,6 +17,7 @@ class LoginPanel extends JPanel implements ActionListener {
     private JPanel buttonPanel;
     private JLabel userLabel, passLabel;
     private final JTextField textField1, textField2;
+    private final String USERNAME = "admin";
 
     LoginPanel(WindowFrame frame) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -69,7 +73,8 @@ class LoginPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         String userValue = textField1.getText();
         String passValue = textField2.getText();
-        if (userValue.equals("admin") && passValue.equals("admin")) {
+        String hashValue = Utilities.hash(passValue);
+        if (userValue.equals(USERNAME) && hashValue.equals(Settings.getHash())) {
             JOptionPane.showMessageDialog(this, "Login Successful");
             frame.changePanel(new MainPanel(frame));
         } else {
