@@ -10,7 +10,7 @@ import java.nio.file.StandardCopyOption;
 
 public abstract class FileHandler {
     private static File fileToUpload;
-    private static File localRepository = new File("C:/temp/test");
+    private static File localRepository = new File(Settings.getLocalRepository());
     private static File[] selectedFiles;
 
     private final static String[] extensions = {"jpeg", "jpg", "png"};
