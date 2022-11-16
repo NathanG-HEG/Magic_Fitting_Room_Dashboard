@@ -47,11 +47,13 @@ class LoginPanel extends JPanel implements ActionListener {
         usernamePanel.setLayout(new FlowLayout());
         usernamePanel.add(userLabel);
         usernamePanel.add(textField1);
+        usernamePanel.setMaximumSize(new Dimension(300, 50));
 
         passwordPanel = new JPanel();
         passwordPanel.setLayout(new FlowLayout());
         passwordPanel.add(passLabel);
         passwordPanel.add(textField2);
+        passwordPanel.setMaximumSize(new Dimension(300, 50));
 
         //create panel to put button in
         buttonPanel = new JPanel();

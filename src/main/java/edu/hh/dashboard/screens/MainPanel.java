@@ -23,6 +23,7 @@ public class MainPanel extends JPanel implements ActionListener {
         this.add(buttonsPanel, BorderLayout.LINE_END);
         this.setVisible(true);
         logOutButton.addActionListener(this);
+        settingsButton.addActionListener(this);
     }
 
     private JPanel createButtonPanel() {
@@ -52,6 +53,10 @@ public class MainPanel extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        frame.changePanel(new LoginPanel(frame));
+        if (ae.getSource() == logOutButton) {
+            frame.changePanel(new LoginPanel(frame));
+        } else if (ae.getSource() == settingsButton) {
+            frame.changePanel(new SettingsPanel(frame));
+        }
     }
 }
