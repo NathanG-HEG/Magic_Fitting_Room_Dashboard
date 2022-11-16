@@ -9,8 +9,8 @@ public class SettingsPanel extends JPanel {
 
     private Checkbox themeButton;
     private TextField gitURL;
-    private TextField gitURLText;
-    private TextField themeText;
+    private JLabel gitURLText;
+    private JLabel themeText;
     private JButton saveButton;
     JPanel content;
     JPanel empty;
@@ -23,10 +23,8 @@ public class SettingsPanel extends JPanel {
         themeButton = new Checkbox();
         String gitHubUrl=getGitHubRepository();
         gitURL = new TextField(gitHubUrl);
-        gitURLText = new TextField("Github Repository");
-        gitURLText.setEditable(false);
-        themeText = new TextField("Activate Theme");
-        themeText.setEditable(false);
+        gitURLText = new JLabel("Github Repository");
+        themeText = new JLabel("Activate Theme");
         saveButton = new JButton("Save");
         content.add(gitURLText);
         content.add(gitURL);
