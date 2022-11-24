@@ -116,6 +116,7 @@ public abstract class Settings {
         newJson.put("gitHubRepository", url);
         newJson.put("emailAddress", emailAddress);
         newJson.put("hash", hash);
+        newJson.put("token",encryptedToken);
 
         //Write JSON file
         try (FileWriter file = new FileWriter("Settings.json")) {
@@ -127,6 +128,34 @@ public abstract class Settings {
             e.printStackTrace();
         }
 
+        //Update
+        readSettings(newJson);
+    }
+
+    public static void changePassword(String password) {
+
+        //Do the magic with hashing the given password
+        String hashedPassword = Utilities.hash(password);
+
+        //Update JSON File
+        JSONObject newJson = new JSONObject();
+        newJson.put("localRepository", localRepository);
+        newJson.put("gitHubRepository", gitHubRepository);
+        newJson.put("emailAddress", emailAddress);
+        newJson.put("hash", hashedPassword);
+        newJson.put("token",encryptedToken);
+
+        //Write JSON file
+        try (FileWriter file = new FileWriter("Settings.json")) {
+            //We can write any JSONArray or JSONObject instance to the file
+            file.write(newJson.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Update
         readSettings(newJson);
     }
 }

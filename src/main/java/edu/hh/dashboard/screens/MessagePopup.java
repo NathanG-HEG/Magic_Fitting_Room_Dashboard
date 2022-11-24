@@ -1,6 +1,13 @@
 package edu.hh.dashboard.screens;
 
-import javax.swing.*;
+import edu.hh.dashboard.Main;
 
-public class MessagePopup extends Popup {
+import javax.swing.*;
+import java.awt.*;
+
+public class MessagePopup extends JFrame {
+
+    public MessagePopup() {
+
+    }
 }
