@@ -7,9 +7,15 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 
 public class GitHubManager {
@@ -34,7 +40,8 @@ public class GitHubManager {
         return instance;
     }
 
-    public void sendFiles(File files[]) throws GitAPIException {
+    public void sendFiles(File files[]) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
+            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
         if (files != null) {
             for (File f : files) {
                 git.add()

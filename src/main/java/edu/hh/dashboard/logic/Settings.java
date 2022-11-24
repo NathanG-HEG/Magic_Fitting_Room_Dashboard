@@ -1,25 +1,44 @@
 package edu.hh.dashboard.logic;
 
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 
 public abstract class Settings {
     private static String localRepository = "";
     private static String gitHubRepository = "";
     private static String emailAddress = "";
     private static String hash = "";
+    private static String encryptedToken ="";
+    private static SecretKey secretKey;
+    private static IvParameterSpec ivParameterSpec;
     private static JSONObject settings = null;
 
     //JSON parser object to parse read file
     public static JSONParser jsonParser = new JSONParser();
+
+    public static void setUpKey() {
+        try {
+            secretKey = Utilities.generateKey(128);
+            System.out.println(new String(secretKey.getEncoded()));
+            ivParameterSpec = Utilities.generateIv();
+            System.out.println(new String(ivParameterSpec.getIV()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static String getHash() {
         return hash;
@@ -35,6 +54,13 @@ public abstract class Settings {
 
     public static String getEmailAddress() {
         return emailAddress;
+    }
+
+    public static String getDecryptedToken() throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
+            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+        String algorithm = "AES/CBC/PKCS5Padding";
+        String plainText = Utilities.decrypt(algorithm, encryptedToken, secretKey, ivParameterSpec);
+        return plainText;
     }
 
     public static void settingsStartup() {
@@ -77,6 +103,10 @@ public abstract class Settings {
         //Get hash
         String jhash = (String) gitInfo.get("hash");
         hash = jhash;
+
+        // Get token
+        String jtoken = (String) gitInfo.get("token");
+        encryptedToken = jtoken;
     }
 
     public static void changeURL(String url) {
