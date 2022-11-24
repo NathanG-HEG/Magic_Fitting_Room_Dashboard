@@ -38,7 +38,7 @@ public abstract class Settings {
     }
 
     public static void settingsStartup() {
-        try (FileReader reader = new FileReader("Information.json")) {
+        try (FileReader reader = new FileReader("Settings.json")) {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
 
@@ -88,7 +88,7 @@ public abstract class Settings {
         newJson.put("hash", hash);
 
         //Write JSON file
-        try (FileWriter file = new FileWriter("Information.json")) {
+        try (FileWriter file = new FileWriter("Settings.json")) {
             //We can write any JSONArray or JSONObject instance to the file
             file.write(newJson.toJSONString());
             file.flush();

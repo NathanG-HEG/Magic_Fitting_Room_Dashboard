@@ -76,6 +76,8 @@ class LoginPanel extends JPanel implements ActionListener {
         String userValue = textField1.getText();
         String passValue = textField2.getText();
         String hashValue = Utilities.hash(passValue);
+        System.out.println("HASH entered: "+hashValue);
+        System.out.println("HASH stored: "+Settings.getHash());
         if (userValue.equals(USERNAME) && hashValue.equals(Settings.getHash())) {
             JOptionPane.showMessageDialog(this, "Login Successful");
             frame.changePanel(new MainPanel(frame));
