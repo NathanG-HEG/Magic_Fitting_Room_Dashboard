@@ -41,7 +41,6 @@ public abstract class FileHandler {
     }
 
     /**
-     *
      * @param files
      */
     private static void addToLocalRepo(File[] files) {
@@ -56,22 +55,22 @@ public abstract class FileHandler {
         }
     }
 
-    public static void removeFromLocalRepo(File[] files){
-        if(!localRepository.exists()){
+    public static void removeFromLocalRepo(File[] files) {
+        if (!localRepository.exists()) {
             localRepository.mkdir();
         }
-        if (files != null){
-            for (File f : files){
-                if(fileNameExtensionFilter.accept(f)){
+        if (files != null) {
+            GitHubManager ghm = GitHubManager.getGitHubManager();
+            try {
+                ghm.removeFiles(files);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            for (File f : files) {
+                if (fileNameExtensionFilter.accept(f)) {
                     f.delete();
                 }
             }
-        }
-        GitHubManager ghm = GitHubManager.getGitHubManager();
-        try {
-            ghm.commitAndPushChanges("Removed "+files.length+" files, committed and pushed the changes");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 

@@ -40,6 +40,22 @@ public class GitHubManager {
         return instance;
     }
 
+    public void removeFiles(File files[]) throws GitAPIException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        if (files != null) {
+            for (File f : files) {
+                git.rm()
+                        .addFilepattern(f.getName())
+                        .call();
+                System.out.println("Removed " + f.getName());
+            }
+            System.out.println(localRepository);
+
+            commitAndPushChanges("Removed "+files.length+" files, committed and pushed the changes");
+
+            System.out.println("Committed and pushed (deletion) " + files.length + " new files.");
+        }
+    }
+
     public void sendFiles(File files[]) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
             BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
         if (files != null) {
@@ -47,7 +63,7 @@ public class GitHubManager {
                 git.add()
                         .addFilepattern(f.getName())
                         .call();
-                System.out.println("Added "+f.getName());
+                System.out.println("Added " + f.getName());
             }
             System.out.println(localRepository);
 
@@ -61,9 +77,10 @@ public class GitHubManager {
     public void commitAndPushChanges(String message) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
             BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
         UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider("softala-tailorfit", "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");
-        git.pull()
+        git.pull().setRemote("origin")
+                .setRemoteBranchName("master")
                 .setCredentialsProvider(credentialsProvider)
-        .call();
+                .call();
         git.commit()
                 .setAuthor("DashboardApp", Settings.getEmailAddress())
                 .setMessage(message)
