@@ -14,6 +14,8 @@ public class WindowFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Magic fitting room - Dashboard");
         this.setIconImage(appIcon.getImage());
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
 
         //currentPanel = new MainPanel();
         currentPanel = new LoginPanel(this);

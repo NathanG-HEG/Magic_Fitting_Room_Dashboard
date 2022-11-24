@@ -44,19 +44,29 @@ public class GitHubManager {
             }
             System.out.println(localRepository);
 
-            git.commit()
-                    .setAuthor("DashboardApp", Settings.getEmailAddress())
-                    .setMessage("Uploaded " + files.length + " new files")
-                    .call();
-            System.out.println("Committed " + files.length + " new files.");
+            commitAndPushChanges("Uploaded " + files.length + " new files");
 
-            git.push()
-                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider("softala-tailorfit", "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"))
-                    .call();
+            System.out.println("Committed and pushed " + files.length + " new files.");
+
         }
     }
 
-    public void configGit() throws GitAPIException, IOException {
+    public void commitAndPushChanges(String message) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
+            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+        UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider("softala-tailorfit", "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");
+        git.pull()
+                .setCredentialsProvider(credentialsProvider)
+        .call();
+        git.commit()
+                .setAuthor("DashboardApp", Settings.getEmailAddress())
+                .setMessage(message)
+                .call();
+        git.push()
+                .setCredentialsProvider(credentialsProvider)
+                .call();
+    }
+
+    private void configGit() throws GitAPIException, IOException {
         gitHubRepo = Settings.getGitHubRepository() + ".git";
         localRepository = Settings.getLocalRepository();
         File localRepoFile = new File(localRepository + "/.git");

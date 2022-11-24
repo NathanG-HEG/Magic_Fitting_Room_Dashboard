@@ -1,12 +1,20 @@
 package edu.hh.dashboard.logic;
 
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 public abstract class FileHandler {
     private static File fileToUpload;
@@ -16,6 +24,10 @@ public abstract class FileHandler {
     private final static String[] extensions = {"jpeg", "jpg", "png"};
     private final static FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Image", extensions);
 
+    /***
+     * Method to move files from selected location to local Git repository
+     * @param file the file that is added
+     */
     private static void addFileToLocalRepo(File file) {
         fileToUpload = new File(localRepository.getAbsolutePath() + '/' + file.getName());
         try {
@@ -28,6 +40,10 @@ public abstract class FileHandler {
         }
     }
 
+    /**
+     *
+     * @param files
+     */
     private static void addToLocalRepo(File[] files) {
         if (!localRepository.exists()) {
             localRepository.mkdir();
@@ -40,12 +56,32 @@ public abstract class FileHandler {
         }
     }
 
+    public static void removeFromLocalRepo(File[] files){
+        if(!localRepository.exists()){
+            localRepository.mkdir();
+        }
+        if (files != null){
+            for (File f : files){
+                if(fileNameExtensionFilter.accept(f)){
+                    f.delete();
+                }
+            }
+        }
+        GitHubManager ghm = GitHubManager.getGitHubManager();
+        try {
+            ghm.commitAndPushChanges("Removed "+files.length+" files, committed and pushed the changes");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void upload() {
         GitHubManager ghm = GitHubManager.getGitHubManager();
         addToLocalRepo(selectedFiles);
         try {
             ghm.sendFiles(selectedFiles);
-        } catch (GitAPIException e) {
+        } catch (GitAPIException | InvalidAlgorithmParameterException | IllegalBlockSizeException |
+                 NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
     }
