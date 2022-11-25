@@ -148,8 +148,8 @@ public class SettingsPanel extends JPanel {
             buttons = new JPanel(new GridLayout(1,2));
             confirm = new JButton("Confirm");
             cancel = new JButton("Cancel");
-            text.add(confirm);
-            text.add(cancel);
+            buttons.add(confirm);
+            buttons.add(cancel);
             text.setMaximumSize(new Dimension(300, 50));
 
             content.add(text);
