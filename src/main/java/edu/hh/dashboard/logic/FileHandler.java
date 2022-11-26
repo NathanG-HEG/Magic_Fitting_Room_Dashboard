@@ -1,7 +1,5 @@
 package edu.hh.dashboard.logic;
 
-import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import javax.crypto.BadPaddingException;
@@ -17,7 +15,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 public abstract class FileHandler {
-    private static File fileToUpload;
     private static File localRepository = new File(Settings.getLocalRepository());
     private static File[] selectedFiles;
 
@@ -29,7 +26,7 @@ public abstract class FileHandler {
      * @param file the file that is added
      */
     private static void addFileToLocalRepo(File file) {
-        fileToUpload = new File(localRepository.getAbsolutePath() + '/' + file.getName());
+        File fileToUpload = new File(localRepository.getAbsolutePath() + '/' + file.getName());
         try {
             if (fileToUpload.createNewFile()) {
                 System.out.println("Copying " + file.toPath() + " to " + fileToUpload.toPath());
@@ -83,10 +80,6 @@ public abstract class FileHandler {
                  NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static File[] getSelectedFiles() {
-        return selectedFiles;
     }
 
     public static void setSelectedFiles(File[] selectedFiles) {

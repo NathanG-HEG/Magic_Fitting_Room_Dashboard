@@ -14,17 +14,10 @@ public class SettingsPanel extends JPanel {
 
     private WindowFrame frame;
 
-    private JPanel passwordPanel;
     private JPasswordField passwordField;
-    private JLabel passwordText;
 
-    private JPanel gitPanel;
     private TextField gitURL;
-    private JLabel gitURLText;
 
-    private JPanel buttonPanel;
-    private JButton saveButton;
-    private JButton backButton;
     JPanel content;
     JPanel empty;
 
@@ -42,9 +35,9 @@ public class SettingsPanel extends JPanel {
         content.setLayout(new GridLayout(3, 1));
 
         //Panel for the Git repository
-        gitPanel = new JPanel();
+        JPanel gitPanel = new JPanel();
         gitPanel.setLayout(new GridLayout(1, 2));
-        gitURLText = new JLabel("Github Repository");
+        JLabel gitURLText = new JLabel("Github Repository");
         gitURLText.setFont(boldFont);
         String gitHubUrl = getGitHubRepository();
         gitURL = new TextField(gitHubUrl);
@@ -53,9 +46,9 @@ public class SettingsPanel extends JPanel {
         gitPanel.setMaximumSize(new Dimension(300, 50));
 
         //Panel for the changing of Password
-        passwordPanel = new JPanel();
+        JPanel passwordPanel = new JPanel();
         passwordPanel.setLayout(new GridLayout(1, 2));
-        passwordText = new JLabel("Change Password");
+        JLabel passwordText = new JLabel("Change Password");
         passwordText.setFont(boldFont);
         passwordField = new JPasswordField(15);
         passwordPanel.add(passwordText);
@@ -63,10 +56,10 @@ public class SettingsPanel extends JPanel {
         passwordPanel.setMaximumSize(new Dimension(300, 50));
 
         //Panel for the buttons
-        buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
-        saveButton = new JButton("Save");
-        backButton = new JButton("Back");
+        JButton saveButton = new JButton("Save");
+        JButton backButton = new JButton("Back");
         buttonPanel.add(saveButton);
         buttonPanel.add(backButton);
 
@@ -121,7 +114,6 @@ public class SettingsPanel extends JPanel {
 
 
     private class PopUp extends JFrame {
-        private ImageIcon appIcon = new ImageIcon(Main.class.getResource("/Amandan_uusi_logo_png.png"));
 
         JPanel content;
         JPanel text;
@@ -134,6 +126,7 @@ public class SettingsPanel extends JPanel {
             this.setSize(300, 200);
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Magic fitting room - Settings");
+            ImageIcon appIcon = new ImageIcon(Main.class.getResource("/Amandan_uusi_logo_png.png"));
             this.setIconImage(appIcon.getImage());
             this.setLocationRelativeTo(null);
             this.setResizable(false);

@@ -1,30 +1,21 @@
 package edu.hh.dashboard.screens;
 
-import edu.hh.dashboard.Main;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class MainPanel extends JPanel implements ActionListener {
     private WindowFrame frame;
     private MenuButton settingsButton;
     private MenuButton logOutButton;
-    private AddButton addButton;
-    private DeleteButton deleteButton;
-    private JPanel buttonsPanel;
-    private JPanel uploadPanel;
 
     public MainPanel(WindowFrame frame) {
         this.frame = frame;
         this.setLayout(new BorderLayout());
-        uploadPanel = createUploadPanel();
+        JPanel uploadPanel = createUploadPanel();
         this.add(uploadPanel, BorderLayout.CENTER);
-        buttonsPanel = createButtonPanel();
+        JPanel buttonsPanel = createButtonPanel();
         this.add(buttonsPanel, BorderLayout.LINE_END);
         this.setVisible(true);
         logOutButton.addActionListener(this);
@@ -49,10 +40,10 @@ public class MainPanel extends JPanel implements ActionListener {
     private JPanel createUploadPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-        addButton = new AddButton(panel);
+        AddButton addButton = new AddButton(panel);
         panel.add(addButton);
 
-        deleteButton = new DeleteButton(panel);
+        DeleteButton deleteButton = new DeleteButton(panel);
         panel.add(deleteButton);
 
         panel.setVisible(true);

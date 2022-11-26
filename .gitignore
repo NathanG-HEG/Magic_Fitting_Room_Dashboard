@@ -1,3 +1,7 @@
+### App specific
+Settings.json
+
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/

@@ -1,23 +1,15 @@
 package edu.hh.dashboard.screens;
 
-import edu.hh.dashboard.logic.Settings;
 import edu.hh.dashboard.logic.Utilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.lang.Exception;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class LoginPanel extends JPanel implements ActionListener {
     private WindowFrame frame;
-    private MenuButton loginButton;
-    private JPanel usernamePanel;
-    private JPanel passwordPanel;
-    private JPanel credentialsPanel;
-    private JPanel buttonPanel;
-    private JLabel userLabel, passLabel;
     private final JTextField textField1, textField2;
-    private final String USERNAME = "admin";
 
     LoginPanel(WindowFrame frame) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -25,43 +17,43 @@ class LoginPanel extends JPanel implements ActionListener {
         this.frame = frame;
 
         //create label for username
-        userLabel = new JLabel();
+        JLabel userLabel = new JLabel();
         userLabel.setText("Username");
 
         //create text field to get username from the user
         textField1 = new JTextField(15);
 
         //create label for password
-        passLabel = new JLabel();
+        JLabel passLabel = new JLabel();
         passLabel.setText("Password");
 
         //create text field to get password from the user
         textField2 = new JPasswordField(15);
 
         //create submit button
-        loginButton = new MenuButton();
+        MenuButton loginButton = new MenuButton();
         loginButton.setText("Login");
 
         //create panels to put credentials in
-        usernamePanel = new JPanel();
+        JPanel usernamePanel = new JPanel();
         usernamePanel.setLayout(new FlowLayout());
         usernamePanel.add(userLabel);
         usernamePanel.add(textField1);
         usernamePanel.setMaximumSize(new Dimension(300, 50));
 
-        passwordPanel = new JPanel();
+        JPanel passwordPanel = new JPanel();
         passwordPanel.setLayout(new FlowLayout());
         passwordPanel.add(passLabel);
         passwordPanel.add(textField2);
         passwordPanel.setMaximumSize(new Dimension(300, 50));
 
         //create panel to put button in
-        buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(loginButton);
 
         // add panels to the LoginPanel
-        credentialsPanel = new JPanel();
+        JPanel credentialsPanel = new JPanel();
         credentialsPanel.setLayout(new BoxLayout(credentialsPanel, BoxLayout.PAGE_AXIS));
         credentialsPanel.add(usernamePanel);
         credentialsPanel.add(passwordPanel);
@@ -75,6 +67,7 @@ class LoginPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         String userValue = textField1.getText();
         String passValue = textField2.getText();
+        String USERNAME = "admin";
         if (Utilities.verifyHash(passValue) && userValue.equals(USERNAME)) {
             JOptionPane.showMessageDialog(this, "Login Successful");
             frame.changePanel(new MainPanel(frame));

@@ -2,8 +2,6 @@ package edu.hh.dashboard;
 
 
 import com.formdev.flatlaf.FlatLightLaf;
-import edu.hh.dashboard.logic.Settings;
-import edu.hh.dashboard.logic.Utilities;
 import edu.hh.dashboard.screens.WindowFrame;
 
 import static edu.hh.dashboard.logic.Settings.setUpKey;

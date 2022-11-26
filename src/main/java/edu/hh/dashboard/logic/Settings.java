@@ -5,7 +5,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.crypto.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 public abstract class Settings {
@@ -24,7 +26,6 @@ public abstract class Settings {
     private static String encryptedToken ="";
     private static SecretKey secretKey;
     private static IvParameterSpec ivParameterSpec;
-    private static JSONObject settings = null;
 
     //JSON parser object to parse read file
     public static JSONParser jsonParser = new JSONParser();
@@ -70,10 +71,9 @@ public abstract class Settings {
 
             JSONObject jsettings = (JSONObject) obj;
             System.out.println(jsettings);
-            settings = jsettings;
 
-            //read the Setting informations
-            readSettings(settings);
+            //read the Setting information
+            readSettings(jsettings);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -86,27 +86,22 @@ public abstract class Settings {
 
     private static void readSettings(JSONObject gitInfo) {
         //Get local Repository
-        String local = (String) gitInfo.get("localRepository");
         //System.out.println("local: "+local);
-        localRepository = local;
+        localRepository = (String) gitInfo.get("localRepository");
 
-        //Get github Repository
-        String github = (String) gitInfo.get("gitHubRepository");
+        //Get gitHub Repository
         //System.out.println("github: "+github);
-        gitHubRepository = github;
+        gitHubRepository = (String) gitInfo.get("gitHubRepository");
 
-        //Get email Adress
-        String email = (String) gitInfo.get("emailAddress");
+        //Get email Address
         //System.out.println("Email: "+email);
-        emailAddress = email;
+        emailAddress = (String) gitInfo.get("emailAddress");
 
         //Get hash
-        String jhash = (String) gitInfo.get("hash");
-        hash = jhash;
+        hash = (String) gitInfo.get("hash");
 
         // Get token
-        String jtoken = (String) gitInfo.get("token");
-        encryptedToken = jtoken;
+        encryptedToken = (String) gitInfo.get("token");
     }
 
     public static void changeURL(String url) {

@@ -1,7 +1,6 @@
 package edu.hh.dashboard.logic;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -12,11 +11,9 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Set;
 
 public class GitHubManager {
     private String gitHubRepo;
@@ -40,7 +37,7 @@ public class GitHubManager {
         return instance;
     }
 
-    public void removeFiles(File files[]) throws GitAPIException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public void removeFiles(File[] files) throws GitAPIException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         if (files != null) {
             for (File f : files) {
                 git.rm()
@@ -56,7 +53,7 @@ public class GitHubManager {
         }
     }
 
-    public void sendFiles(File files[]) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
+    public void sendFiles(File[] files) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
             BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
         if (files != null) {
             for (File f : files) {
@@ -106,19 +103,4 @@ public class GitHubManager {
         git.pull().call();
     }
 
-    public void setGitHubRepo(String gitHubRepo) {
-        this.gitHubRepo = gitHubRepo;
-    }
-
-    public void setLocalRepository(String localRepository) {
-        this.localRepository = localRepository;
-    }
-
-    public String getGitHubRepo() {
-        return gitHubRepo;
-    }
-
-    public String getLocalRepository() {
-        return localRepository;
-    }
 }

@@ -4,7 +4,6 @@ import edu.hh.dashboard.logic.FileHandler;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 
 public class AddButton extends JButton {
     private final String[] extensions = {"jpeg", "jpg", "png"};
