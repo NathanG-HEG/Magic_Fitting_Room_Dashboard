@@ -78,11 +78,12 @@ public class SettingsPanel extends JPanel {
 
     }
 
-    public class SaveAction implements ActionListener{
-        public void actionPerformed(ActionEvent ae){
+    public class SaveAction implements ActionListener {
+        public void actionPerformed(ActionEvent ae) {
             popup = new PopUp();
         }
     }
+
     public class SaveForRealAction implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             String urlValue = gitURL.getText();
@@ -102,8 +103,8 @@ public class SettingsPanel extends JPanel {
 
             popup.dispose();
 
-            }
         }
+    }
 
 
     public class BackAction implements ActionListener {
@@ -133,12 +134,12 @@ public class SettingsPanel extends JPanel {
 
             content = new JPanel();
             content.setLayout(new GridLayout(2, 1));
-            text = new JPanel(new GridLayout(1,1));
+            text = new JPanel(new GridLayout(1, 1));
             confirmation = new JLabel("Are you sure you want to save the changes?");
             confirmation.setFont(boldFont);
             text.add(confirmation);
             text.setMaximumSize(new Dimension(300, 50));
-            buttons = new JPanel(new GridLayout(1,2));
+            buttons = new JPanel(new GridLayout(1, 2));
             confirm = new JButton("Confirm");
             cancel = new JButton("Cancel");
             buttons.add(confirm);

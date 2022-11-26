@@ -5,41 +5,20 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 public abstract class Settings {
     private static String localRepository = "";
     private static String gitHubRepository = "";
     private static String emailAddress = "";
     private static String hash = "";
-    private static String encryptedToken ="";
-    private static SecretKey secretKey;
-    private static IvParameterSpec ivParameterSpec;
+    private static String token = "";
+
 
     //JSON parser object to parse read file
     public static JSONParser jsonParser = new JSONParser();
-
-    public static void setUpKey() {
-        try {
-            secretKey = Utilities.generateKey(128);
-            System.out.println(new String(secretKey.getEncoded()));
-            ivParameterSpec = Utilities.generateIv();
-            System.out.println(new String(ivParameterSpec.getIV()));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static String getHash() {
         return hash;
@@ -57,11 +36,8 @@ public abstract class Settings {
         return emailAddress;
     }
 
-    public static String getDecryptedToken() throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
-        String algorithm = "AES/CBC/PKCS5Padding";
-        String plainText = Utilities.decrypt(algorithm, encryptedToken, secretKey, ivParameterSpec);
-        return plainText;
+    public static String getToken() {
+        return token;
     }
 
     public static void settingsStartup() {
@@ -75,11 +51,7 @@ public abstract class Settings {
             //read the Setting information
             readSettings(jsettings);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -101,7 +73,7 @@ public abstract class Settings {
         hash = (String) gitInfo.get("hash");
 
         // Get token
-        encryptedToken = (String) gitInfo.get("token");
+        token = (String) gitInfo.get("token");
     }
 
     public static void changeURL(String url) {
@@ -111,7 +83,7 @@ public abstract class Settings {
         newJson.put("gitHubRepository", url);
         newJson.put("emailAddress", emailAddress);
         newJson.put("hash", hash);
-        newJson.put("token",encryptedToken);
+        newJson.put("token", token);
 
         //Write JSON file
         try (FileWriter file = new FileWriter("Settings.json")) {
@@ -138,7 +110,7 @@ public abstract class Settings {
         newJson.put("gitHubRepository", gitHubRepository);
         newJson.put("emailAddress", emailAddress);
         newJson.put("hash", hashedPassword);
-        newJson.put("token",encryptedToken);
+        newJson.put("token", token);
 
         //Write JSON file
         try (FileWriter file = new FileWriter("Settings.json")) {
