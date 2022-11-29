@@ -7,6 +7,9 @@ import javax.swing.*;
 public class WindowFrame extends JFrame {
     private JPanel currentPanel;
 
+    /**
+     * Creates a new WindowFrame object.
+     */
     public WindowFrame() {
         this.setSize(600, 400);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -23,6 +26,10 @@ public class WindowFrame extends JFrame {
     }
 
 
+    /**
+     * Changes the current panel to the given panel.
+     * @param newPanel the panel to change to
+     */
     public void changePanel(JPanel newPanel) {
         this.remove(currentPanel);
         this.add(newPanel);

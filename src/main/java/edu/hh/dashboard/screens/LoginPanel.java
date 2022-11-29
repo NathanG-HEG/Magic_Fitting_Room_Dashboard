@@ -11,6 +11,10 @@ class LoginPanel extends JPanel implements ActionListener {
     private WindowFrame frame;
     private final JTextField textField1, textField2;
 
+    /**
+     * Creates a new login panel.
+     * @param frame the frame to which the panel is added
+     */
     LoginPanel(WindowFrame frame) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -64,6 +68,10 @@ class LoginPanel extends JPanel implements ActionListener {
         loginButton.addActionListener(this);
     }
 
+    /**
+     * When the login button is pressed, the username and password are checked.
+     * @param ae
+     */
     public void actionPerformed(ActionEvent ae) {
         String userValue = textField1.getText();
         String passValue = textField2.getText();
