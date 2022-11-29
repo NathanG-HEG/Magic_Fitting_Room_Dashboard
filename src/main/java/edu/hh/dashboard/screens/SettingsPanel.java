@@ -79,11 +79,19 @@ public class SettingsPanel extends JPanel {
     }
 
     public class SaveAction implements ActionListener{
+        /**
+         * Gets called when Save button was clicked
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae){
             popup = new PopUp();
         }
     }
     public class SaveForRealAction implements ActionListener {
+        /**
+         * Gets called when the second Save button in the Popup gets clicked
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae) {
             String urlValue = gitURL.getText();
             Settings.changeURL(urlValue);
@@ -98,6 +106,10 @@ public class SettingsPanel extends JPanel {
     }
 
     public class CancelAction implements ActionListener {
+        /**
+         * Gets called when the Cancel Button in the Popup was clicked
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae) {
 
             popup.dispose();
@@ -107,6 +119,10 @@ public class SettingsPanel extends JPanel {
 
 
     public class BackAction implements ActionListener {
+        /**
+         * Gets called when the Back button was clicked
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae) {
             frame.changePanel(new MainPanel(frame));
         }

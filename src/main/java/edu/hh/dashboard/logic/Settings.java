@@ -30,6 +30,10 @@ public abstract class Settings {
     //JSON parser object to parse read file
     public static JSONParser jsonParser = new JSONParser();
 
+    /**
+     * setUpKey() is used to create the secret Key
+     * @param
+     */
     public static void setUpKey() {
         try {
             secretKey = Utilities.generateKey(128);
@@ -41,18 +45,34 @@ public abstract class Settings {
         }
     }
 
+    /**
+     * Returns the Hashed password
+     * @return
+     */
     public static String getHash() {
         return hash;
     }
 
+    /**
+     * Returns the local Git Repository
+     * @return
+     */
     public static String getLocalRepository() {
         return localRepository;
     }
 
+    /**
+     * Returns the Git Repository
+     * @return
+     */
     public static String getGitHubRepository() {
         return gitHubRepository;
     }
 
+    /**
+     * Returns the Email Address
+     * @return
+     */
     public static String getEmailAddress() {
         return emailAddress;
     }
@@ -64,6 +84,9 @@ public abstract class Settings {
         return plainText;
     }
 
+    /**
+     * settingsStartup() gets called at the Start to load the Settings from the JSON File
+     */
     public static void settingsStartup() {
         try (FileReader reader = new FileReader("Settings.json")) {
             //Read JSON file
@@ -84,26 +107,27 @@ public abstract class Settings {
         }
     }
 
+    /**
+     * Gets called by settingsStartup() to do the actual reading of the JSON File
+     * @param gitInfo
+     */
     private static void readSettings(JSONObject gitInfo) {
         //Get local Repository
-        //System.out.println("local: "+local);
         localRepository = (String) gitInfo.get("localRepository");
-
         //Get gitHub Repository
-        //System.out.println("github: "+github);
         gitHubRepository = (String) gitInfo.get("gitHubRepository");
-
         //Get email Address
-        //System.out.println("Email: "+email);
         emailAddress = (String) gitInfo.get("emailAddress");
-
         //Get hash
         hash = (String) gitInfo.get("hash");
-
         // Get token
         encryptedToken = (String) gitInfo.get("token");
     }
 
+    /**
+     * Used to change the GitURL in the Settings Panel
+     * @param url
+     */
     public static void changeURL(String url) {
         //Update JSON File
         JSONObject newJson = new JSONObject();
@@ -127,6 +151,10 @@ public abstract class Settings {
         readSettings(newJson);
     }
 
+    /**
+     * Used to change the Password in the Settings Panel
+     * @param password
+     */
     public static void changePassword(String password) {
 
         //Do the magic with hashing the given password
