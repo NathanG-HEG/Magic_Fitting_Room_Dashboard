@@ -23,27 +23,10 @@ public abstract class Settings {
     private static String gitHubRepository = "";
     private static String emailAddress = "";
     private static String hash = "";
-    private static String encryptedToken ="";
-    private static SecretKey secretKey;
-    private static IvParameterSpec ivParameterSpec;
+    private static String token ="";
 
     //JSON parser object to parse read file
     public static JSONParser jsonParser = new JSONParser();
-
-    /**
-     * setUpKey() is used to create the secret Key
-     * @param
-     */
-    public static void setUpKey() {
-        try {
-            secretKey = Utilities.generateKey(128);
-            System.out.println(new String(secretKey.getEncoded()));
-            ivParameterSpec = Utilities.generateIv();
-            System.out.println(new String(ivParameterSpec.getIV()));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Returns the Hashed password
@@ -75,13 +58,6 @@ public abstract class Settings {
      */
     public static String getEmailAddress() {
         return emailAddress;
-    }
-
-    public static String getDecryptedToken() throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
-        String algorithm = "AES/CBC/PKCS5Padding";
-        String plainText = Utilities.decrypt(algorithm, encryptedToken, secretKey, ivParameterSpec);
-        return plainText;
     }
 
     /**
@@ -121,7 +97,7 @@ public abstract class Settings {
         //Get hash
         hash = (String) gitInfo.get("hash");
         // Get token
-        encryptedToken = (String) gitInfo.get("token");
+        token = (String) gitInfo.get("token");
     }
 
     /**
@@ -135,7 +111,7 @@ public abstract class Settings {
         newJson.put("gitHubRepository", url);
         newJson.put("emailAddress", emailAddress);
         newJson.put("hash", hash);
-        newJson.put("token",encryptedToken);
+        newJson.put("token",token);
 
         //Write JSON file
         try (FileWriter file = new FileWriter("Settings.json")) {
@@ -149,6 +125,10 @@ public abstract class Settings {
 
         //Update
         readSettings(newJson);
+    }
+
+    public static String getToken() {
+        return token;
     }
 
     /**
@@ -166,7 +146,7 @@ public abstract class Settings {
         newJson.put("gitHubRepository", gitHubRepository);
         newJson.put("emailAddress", emailAddress);
         newJson.put("hash", hashedPassword);
-        newJson.put("token",encryptedToken);
+        newJson.put("token",token);
 
         //Write JSON file
         try (FileWriter file = new FileWriter("Settings.json")) {

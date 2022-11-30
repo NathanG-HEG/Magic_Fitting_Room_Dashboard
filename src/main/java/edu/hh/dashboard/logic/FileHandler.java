@@ -2,20 +2,16 @@ package edu.hh.dashboard.logic;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+
+import static edu.hh.dashboard.logic.Utilities.CLOTHES_CATEGORY;
 
 public abstract class FileHandler {
-    private static File localRepository = new File(Settings.getLocalRepository());
+    private static File localPicturesRepository = new File(Settings.getLocalRepository()+"/clothes/"+CLOTHES_CATEGORY[Utilities.chosenCategory]);
     private static File[] selectedFiles;
 
     private final static String[] extensions = {"jpeg", "jpg", "png"};
@@ -26,7 +22,7 @@ public abstract class FileHandler {
      * @param file the file that is added
      */
     private static void addFileToLocalRepo(File file) {
-        File fileToUpload = new File(localRepository.getAbsolutePath() + '/' + file.getName());
+        File fileToUpload = new File(localPicturesRepository.getAbsolutePath() + '/' + file.getName());
         try {
             if (fileToUpload.createNewFile()) {
                 System.out.println("Copying " + file.toPath() + " to " + fileToUpload.toPath());
@@ -38,11 +34,11 @@ public abstract class FileHandler {
     }
 
     /**
-     * @param files
+     * @param files array of File objects to add to the local repo
      */
     private static void addToLocalRepo(File[] files) {
-        if (!localRepository.exists()) {
-            localRepository.mkdir();
+        if (!localPicturesRepository.exists()) {
+            localPicturesRepository.mkdir();
         }
         if (files != null) {
             for (File f : files) {
@@ -53,8 +49,8 @@ public abstract class FileHandler {
     }
 
     public static void removeFromLocalRepo(File[] files) {
-        if (!localRepository.exists()) {
-            localRepository.mkdir();
+        if (!localPicturesRepository.exists()) {
+            localPicturesRepository.mkdir();
         }
         if (files != null) {
             GitHubManager ghm = GitHubManager.getGitHubManager();
@@ -76,8 +72,7 @@ public abstract class FileHandler {
         addToLocalRepo(selectedFiles);
         try {
             ghm.sendFiles(selectedFiles);
-        } catch (GitAPIException | InvalidAlgorithmParameterException | IllegalBlockSizeException |
-                 NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
+        } catch (GitAPIException e) {
             throw new RuntimeException(e);
         }
     }

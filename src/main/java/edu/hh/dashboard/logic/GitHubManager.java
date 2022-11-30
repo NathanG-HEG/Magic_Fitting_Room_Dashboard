@@ -5,18 +5,10 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import java.io.File;
 import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 public class GitHubManager {
-    private String gitHubRepo;
     private String localRepository;
     private Git git;
     private static GitHubManager instance;
@@ -37,28 +29,27 @@ public class GitHubManager {
         return instance;
     }
 
-    public void removeFiles(File[] files) throws GitAPIException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public void removeFiles(File[] files) throws GitAPIException {
         if (files != null) {
             for (File f : files) {
                 git.rm()
-                        .addFilepattern(f.getName())
+                        .addFilepattern("clothes/"+Utilities.CLOTHES_CATEGORY[Utilities.chosenCategory]+"/"+f.getName())
                         .call();
                 System.out.println("Removed " + f.getName());
             }
             System.out.println(localRepository);
 
-            commitAndPushChanges("Removed "+files.length+" files, committed and pushed the changes");
+            commitAndPushChanges("Removed " + files.length + " files, committed and pushed the changes");
 
             System.out.println("Committed and pushed (deletion) " + files.length + " new files.");
         }
     }
 
-    public void sendFiles(File[] files) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+    public void sendFiles(File[] files) throws GitAPIException {
         if (files != null) {
             for (File f : files) {
                 git.add()
-                        .addFilepattern(f.getName())
+                        .addFilepattern("clothes/"+Utilities.CLOTHES_CATEGORY[Utilities.chosenCategory]+"/"+f.getName())
                         .call();
                 System.out.println("Added " + f.getName());
             }
@@ -71,9 +62,8 @@ public class GitHubManager {
         }
     }
 
-    public void commitAndPushChanges(String message) throws GitAPIException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
-        UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider("softala-tailorfit", "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");
+    public void commitAndPushChanges(String message) throws GitAPIException {
+        UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider("softala-tailorfit", Settings.getToken());
         git.pull().setRemote("origin")
                 .setRemoteBranchName("master")
                 .setCredentialsProvider(credentialsProvider)
@@ -88,7 +78,7 @@ public class GitHubManager {
     }
 
     private void configGit() throws GitAPIException, IOException {
-        gitHubRepo = Settings.getGitHubRepository() + ".git";
+        String gitHubRepo = Settings.getGitHubRepository() + ".git";
         localRepository = Settings.getLocalRepository();
         File localRepoFile = new File(localRepository + "/.git");
         if (!localRepoFile.exists()) {

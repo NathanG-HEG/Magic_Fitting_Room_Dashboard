@@ -2,6 +2,7 @@ package edu.hh.dashboard.screens;
 
 import edu.hh.dashboard.logic.FileHandler;
 import edu.hh.dashboard.logic.Settings;
+import edu.hh.dashboard.logic.Utilities;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,7 +17,7 @@ public class DeleteButton extends JButton {
         this.setText("Remove one or many pictures");
         this.addActionListener(e -> {
             JFileChooser jfc = new JFileChooser();
-            jfc.setCurrentDirectory(new File(Settings.getLocalRepository()));
+            jfc.setCurrentDirectory(new File(Settings.getLocalRepository()+"/clothes/"+ Utilities.CLOTHES_CATEGORY[Utilities.chosenCategory]));
             jfc.setFileFilter(fileNameExtensionFilter);
             jfc.setMultiSelectionEnabled(true);
             jfc.setDialogTitle("Select one or many pictures");
