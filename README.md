@@ -25,6 +25,10 @@ always admin. The password must have been given to you.
 
 Once logged-in, you are presented with four buttons. 
 
+### Select a clothes category
+This drop down list allows to choose a category to or from which the files
+will be added or deleted.
+
 ### Add one or many pictures
 This will open a file explorer on your local machine, select one or
 many picture files. Click on "Add pictures to the application" to
