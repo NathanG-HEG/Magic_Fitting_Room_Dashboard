@@ -1,5 +1,7 @@
 package edu.hh.dashboard.screens;
 
+import edu.hh.dashboard.logic.Utilities;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,18 @@ public class MainPanel extends JPanel implements ActionListener {
 
     }
 
+    private JComboBox<String> createComboBox(){
+        JComboBox<String> jComboBox = new JComboBox<>(Utilities.CLOTHES_CATEGORY);
+        jComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Utilities.chosenCategory = jComboBox.getSelectedIndex();
+            }
+        });
+
+        return jComboBox;
+    }
+
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -42,6 +56,9 @@ public class MainPanel extends JPanel implements ActionListener {
         panel.setLayout(new FlowLayout());
         AddButton addButton = new AddButton(panel);
         panel.add(addButton);
+
+        JComboBox<String> jComboBox = createComboBox();
+        panel.add(jComboBox);
 
         DeleteButton deleteButton = new DeleteButton(panel);
         panel.add(deleteButton);

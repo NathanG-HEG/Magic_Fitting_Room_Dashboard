@@ -33,7 +33,7 @@ public class GitHubManager {
         if (files != null) {
             for (File f : files) {
                 git.rm()
-                        .addFilepattern("clothes/"+f.getName())
+                        .addFilepattern("clothes/"+Utilities.CLOTHES_CATEGORY[Utilities.chosenCategory]+"/"+f.getName())
                         .call();
                 System.out.println("Removed " + f.getName());
             }
@@ -49,7 +49,7 @@ public class GitHubManager {
         if (files != null) {
             for (File f : files) {
                 git.add()
-                        .addFilepattern("clothes/"+f.getName())
+                        .addFilepattern("clothes/"+Utilities.CLOTHES_CATEGORY[Utilities.chosenCategory]+"/"+f.getName())
                         .call();
                 System.out.println("Added " + f.getName());
             }

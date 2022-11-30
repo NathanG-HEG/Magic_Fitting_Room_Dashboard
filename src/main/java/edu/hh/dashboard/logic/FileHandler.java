@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import static edu.hh.dashboard.logic.Utilities.CLOTHES_CATEGORY;
+
 public abstract class FileHandler {
-    private static File localPicturesRepository = new File(Settings.getLocalRepository()+"/clothes");
+    private static File localPicturesRepository = new File(Settings.getLocalRepository()+"/clothes/"+CLOTHES_CATEGORY[Utilities.chosenCategory]);
     private static File[] selectedFiles;
 
     private final static String[] extensions = {"jpeg", "jpg", "png"};
