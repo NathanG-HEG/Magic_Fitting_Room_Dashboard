@@ -78,13 +78,20 @@ public class SettingsPanel extends JPanel {
 
     }
 
-    public class SaveAction implements ActionListener {
-        public void actionPerformed(ActionEvent ae) {
+    public class SaveAction implements ActionListener{
+        /**
+         * Gets called when Save button was clicked
+         * @param ae
+         */
+        public void actionPerformed(ActionEvent ae){
             popup = new PopUp();
         }
     }
-
     public class SaveForRealAction implements ActionListener {
+        /**
+         * Gets called when the second Save button in the Popup gets clicked
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae) {
             String urlValue = gitURL.getText();
             Settings.changeURL(urlValue);
@@ -99,15 +106,23 @@ public class SettingsPanel extends JPanel {
     }
 
     public class CancelAction implements ActionListener {
+        /**
+         * Gets called when the Cancel Button in the Popup was clicked
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae) {
 
             popup.dispose();
 
+            }
         }
-    }
 
 
     public class BackAction implements ActionListener {
+        /**
+         * Gets called when the Back button was clicked
+         * @param ae
+         */
         public void actionPerformed(ActionEvent ae) {
             frame.changePanel(new MainPanel(frame));
         }
@@ -134,12 +149,12 @@ public class SettingsPanel extends JPanel {
 
             content = new JPanel();
             content.setLayout(new GridLayout(2, 1));
-            text = new JPanel(new GridLayout(1, 1));
+            text = new JPanel(new GridLayout(1,1));
             confirmation = new JLabel("Are you sure you want to save the changes?");
             confirmation.setFont(boldFont);
             text.add(confirmation);
             text.setMaximumSize(new Dimension(300, 50));
-            buttons = new JPanel(new GridLayout(1, 2));
+            buttons = new JPanel(new GridLayout(1,2));
             confirm = new JButton("Confirm");
             cancel = new JButton("Cancel");
             buttons.add(confirm);
