@@ -8,10 +8,18 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
+
+/***
+ * Encapsulation of the delete behaviour in a JButton class
+ */
 public class DeleteButton extends JButton {
     private final String[] extensions = {"jpeg", "jpg", "png"};
     private final FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Image", extensions);
 
+    /***
+     * Default constructor
+     * @param parent the panel that uses the Button
+     */
     public DeleteButton(JPanel parent) {
         super();
         this.setText("Remove one or many pictures");

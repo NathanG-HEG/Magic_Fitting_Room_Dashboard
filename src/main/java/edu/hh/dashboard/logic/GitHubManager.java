@@ -8,11 +8,17 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import java.io.File;
 import java.io.IOException;
 
+/***
+ * Class to encapsulate the methods of JGit
+ */
 public class GitHubManager {
     private String localRepository;
     private Git git;
     private static GitHubManager instance;
 
+    /***
+     * Singleton constructor
+     */
     private GitHubManager() {
         try {
             configGit();
@@ -22,6 +28,10 @@ public class GitHubManager {
     }
 
 
+    /***
+     * Unique instance getter
+     * @return Adress of the GitHubManager object
+     */
     public static GitHubManager getGitHubManager() {
         if (instance == null) {
             instance = new GitHubManager();
@@ -29,6 +39,11 @@ public class GitHubManager {
         return instance;
     }
 
+    /***
+     * Remove files from Git track list and pushes the changes
+     * @param files files to remove from track list
+     * @throws GitAPIException
+     */
     public void removeFiles(File[] files) throws GitAPIException {
         if (files != null) {
             for (File f : files) {
@@ -45,6 +60,11 @@ public class GitHubManager {
         }
     }
 
+    /***
+     * Add files to the Git track list and pushes them to remote repo
+     * @param files files to add to repo
+     * @throws GitAPIException
+     */
     public void sendFiles(File[] files) throws GitAPIException {
         if (files != null) {
             for (File f : files) {
@@ -62,6 +82,11 @@ public class GitHubManager {
         }
     }
 
+    /***
+     * Updates the Git repo, commit and pushes the changes
+     * @param message commit message
+     * @throws GitAPIException
+     */
     public void commitAndPushChanges(String message) throws GitAPIException {
         UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider("softala-tailorfit", Settings.getToken());
         git.pull().setRemote("origin")
@@ -77,6 +102,11 @@ public class GitHubManager {
                 .call();
     }
 
+    /***
+     * Set up local git repository if folder is nonexistent
+     * @throws GitAPIException
+     * @throws IOException
+     */
     private void configGit() throws GitAPIException, IOException {
         String gitHubRepo = Settings.getGitHubRepository() + ".git";
         localRepository = Settings.getLocalRepository();

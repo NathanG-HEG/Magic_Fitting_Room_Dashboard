@@ -5,10 +5,17 @@ import edu.hh.dashboard.logic.FileHandler;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/***
+ * Encapsulation of the add behaviour in a JButton
+ */
 public class AddButton extends JButton {
     private final String[] extensions = {"jpeg", "jpg", "png"};
     private final FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Image", extensions);
 
+    /***
+     * Constructor method
+     * @param parent the panel that uses the button
+     */
     public AddButton(JPanel parent) {
         super();
         this.setText("Add one or many pictures");

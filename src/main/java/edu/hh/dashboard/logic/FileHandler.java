@@ -10,6 +10,9 @@ import java.nio.file.StandardCopyOption;
 
 import static edu.hh.dashboard.logic.Utilities.CLOTHES_CATEGORY;
 
+/***
+ * Class to handle the file on the local file system
+ */
 public abstract class FileHandler {
     private static File localPicturesRepository = new File(Settings.getLocalRepository()+"/clothes/"+CLOTHES_CATEGORY[Utilities.chosenCategory]);
     private static File[] selectedFiles;
@@ -33,7 +36,7 @@ public abstract class FileHandler {
         }
     }
 
-    /**
+    /** Add files to local Git repo
      * @param files array of File objects to add to the local repo
      */
     private static void addToLocalRepo(File[] files) {
@@ -48,6 +51,10 @@ public abstract class FileHandler {
         }
     }
 
+    /***
+     * Remove files from local repo and call GitHubManager to delete from tracklist
+     * @param files files to be deleted from repo
+     */
     public static void removeFromLocalRepo(File[] files) {
         if (!localPicturesRepository.exists()) {
             localPicturesRepository.mkdir();
@@ -67,6 +74,9 @@ public abstract class FileHandler {
         }
     }
 
+    /***
+     * Calls the GitHubManager to add files to the remote repo
+     */
     public static void upload() {
         GitHubManager ghm = GitHubManager.getGitHubManager();
         addToLocalRepo(selectedFiles);
