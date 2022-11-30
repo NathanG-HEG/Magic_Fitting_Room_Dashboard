@@ -33,7 +33,7 @@ public class GitHubManager {
         if (files != null) {
             for (File f : files) {
                 git.rm()
-                        .addFilepattern(f.getName())
+                        .addFilepattern("clothes/"+f.getName())
                         .call();
                 System.out.println("Removed " + f.getName());
             }
@@ -49,7 +49,7 @@ public class GitHubManager {
         if (files != null) {
             for (File f : files) {
                 git.add()
-                        .addFilepattern(f.getName())
+                        .addFilepattern("clothes/"+f.getName())
                         .call();
                 System.out.println("Added " + f.getName());
             }

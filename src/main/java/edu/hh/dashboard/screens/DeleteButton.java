@@ -16,7 +16,7 @@ public class DeleteButton extends JButton {
         this.setText("Remove one or many pictures");
         this.addActionListener(e -> {
             JFileChooser jfc = new JFileChooser();
-            jfc.setCurrentDirectory(new File(Settings.getLocalRepository()));
+            jfc.setCurrentDirectory(new File(Settings.getLocalRepository()+"/clothes"));
             jfc.setFileFilter(fileNameExtensionFilter);
             jfc.setMultiSelectionEnabled(true);
             jfc.setDialogTitle("Select one or many pictures");
