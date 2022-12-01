@@ -123,4 +123,12 @@ public class GitHubManager {
         git.pull().call();
     }
 
+    public void commitHtmlChanges() throws GitAPIException{
+        git.commit()
+                .setOnly("index.html")
+                .setAuthor("DashboardApp", Settings.getEmailAddress())
+                .setMessage("updated index.html")
+                .call();
+    }
+
 }
