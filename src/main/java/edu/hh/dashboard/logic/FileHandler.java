@@ -1,5 +1,6 @@
 package edu.hh.dashboard.logic;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -9,12 +10,13 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import static edu.hh.dashboard.logic.Utilities.CLOTHES_CATEGORY;
+import static edu.hh.dashboard.logic.Utilities.chosenCategory;
 
 /***
  * Class to handle the file on the local file system
  */
 public abstract class FileHandler {
-    private static File localPicturesRepository = new File(Settings.getLocalRepository()+"/clothes/"+CLOTHES_CATEGORY[Utilities.chosenCategory]);
+    private static File localPicturesRepository = new File(Settings.getLocalRepository() + "/clothes/" + CLOTHES_CATEGORY[Utilities.chosenCategory]);
     private static File[] selectedFiles;
 
     private final static String[] extensions = {"jpeg", "jpg", "png"};
@@ -36,7 +38,9 @@ public abstract class FileHandler {
         }
     }
 
-    /** Add files to local Git repo
+    /**
+     * Add files to local Git repo
+     *
      * @param files array of File objects to add to the local repo
      */
     private static void addToLocalRepo(File[] files) {
@@ -49,6 +53,7 @@ public abstract class FileHandler {
                     addFileToLocalRepo(f);
             }
         }
+
     }
 
     /***
@@ -80,8 +85,19 @@ public abstract class FileHandler {
     public static void upload() {
         GitHubManager ghm = GitHubManager.getGitHubManager();
         addToLocalRepo(selectedFiles);
+        updateHtml();
         try {
             ghm.sendFiles(selectedFiles);
+        } catch (GitAPIException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void updateHtml() {
+        HtmlEditor.modifyDivElementsFromFolder(Settings.getLocalRepository() + "/clothes/" + CLOTHES_CATEGORY[chosenCategory]);
+        GitHubManager ghm = GitHubManager.getGitHubManager();
+        try {
+            ghm.commitHtmlChanges();
         } catch (GitAPIException e) {
             throw new RuntimeException(e);
         }
