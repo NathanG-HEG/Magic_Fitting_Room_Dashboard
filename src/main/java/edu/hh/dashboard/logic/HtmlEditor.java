@@ -8,12 +8,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/***
+ * Utilities class to edit the index.html file in order adjust it and display new content
+ */
 public abstract class HtmlEditor {
 
-    private static String htmlFile = Settings.getLocalRepository()+"/index.html";
+    private static String htmlFile = Settings.getLocalRepository() + "/index.html";
     private static String folderName = "";
 
-
+    /***
+     * Rewrite the div element in the HTML file with the new content
+     * @param divId the id of the div to rewrite
+     * @param content The list of content to write
+     * @throws IOException
+     */
     private static void modifyDivElementsInHtmlFile(String divId, String[] content) throws IOException {
         File f = new File(htmlFile);
 
@@ -31,10 +39,14 @@ public abstract class HtmlEditor {
         Files.writeString(f.toPath(), newHtmlContent);
     }
 
+    /***
+     * Modify the div element corresponding to a folder in the local repo
+     * @param folder the folder that got modified (added or deleted pictures)
+     */
     public static void modifyDivElementsFromFolder(String folder) {
-        folderName = folder.replaceFirst(Settings.getLocalRepository()+"/clothes/", "") + "/";
+        folderName = folder.replaceFirst(Settings.getLocalRepository() + "/clothes/", "") + "/";
         String divId;
-        switch (folder.replaceFirst(Settings.getLocalRepository()+"/clothes/","")) {
+        switch (folder.replaceFirst(Settings.getLocalRepository() + "/clothes/", "")) {
             case "Fire":
                 divId = "fdiv";
                 break;
@@ -63,6 +75,11 @@ public abstract class HtmlEditor {
         }
     }
 
+    /***
+     * Generate an element for the according to a file name
+     * @param fileName The file name contained in the right clothes folder
+     * @return a String containing the new HTML element.
+     */
     private static String createDivElementFromFile(String fileName) {
         StringBuilder sb = new StringBuilder();
         //        <ul class="imgList">
@@ -70,7 +87,10 @@ public abstract class HtmlEditor {
         //        </ul>
         sb.append("<ul class=\"imgList\">")
                 .append("\n\t")
-                .append("<img src=\"").append("clothes/").append(folderName).append(fileName)
+                .append("<img src=\"")
+                .append("clothes/")
+                .append(folderName)
+                .append(fileName)
                 .append("\"")
                 .append(" id=\"")
                 .append(folderName, 0, 2)
