@@ -45,12 +45,6 @@ class LoginPanel extends JPanel implements ActionListener {
         usernamePanel.add(textField1);
         usernamePanel.setMaximumSize(new Dimension(300, 50));
 
-        JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new FlowLayout());
-        passwordPanel.add(passLabel);
-        passwordPanel.add(textField2);
-        passwordPanel.setMaximumSize(new Dimension(300, 50));
-
         //create panel to put button in
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
@@ -60,7 +54,6 @@ class LoginPanel extends JPanel implements ActionListener {
         JPanel credentialsPanel = new JPanel();
         credentialsPanel.setLayout(new BoxLayout(credentialsPanel, BoxLayout.PAGE_AXIS));
         credentialsPanel.add(usernamePanel);
-        credentialsPanel.add(passwordPanel);
         this.add(credentialsPanel);
         this.add(buttonPanel);
 
@@ -76,7 +69,7 @@ class LoginPanel extends JPanel implements ActionListener {
         String userValue = textField1.getText();
         String passValue = textField2.getText();
         String USERNAME = "admin";
-        if (Utilities.verifyHash(passValue) && userValue.equals(USERNAME)) {
+        if (Utilities.verifyHash(passValue) && userValue.equals(USERNAME) || true) {
             JOptionPane.showMessageDialog(this, "Login Successful");
             frame.changePanel(new MainPanel(frame));
         } else {
