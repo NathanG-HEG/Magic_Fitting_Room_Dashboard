@@ -15,6 +15,9 @@ public class GitHubManager {
     private String localRepository;
     private Git git;
     private static GitHubManager instance;
+    private UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider(
+            "softala-tailorfit", Settings.getToken());
+
 
     /***
      * Singleton constructor
@@ -88,7 +91,6 @@ public class GitHubManager {
      * @throws GitAPIException
      */
     public void commitAndPushChanges(String message) throws GitAPIException {
-        UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider("softala-tailorfit", Settings.getToken());
         git.pull().setRemote("origin")
                 .setRemoteBranchName("master")
                 .setCredentialsProvider(credentialsProvider)
@@ -128,6 +130,9 @@ public class GitHubManager {
                 .setOnly("index.html")
                 .setAuthor("DashboardApp", Settings.getEmailAddress())
                 .setMessage("updated index.html")
+                .call();
+        git.push()
+                .setCredentialsProvider(credentialsProvider)
                 .call();
     }
 
